@@ -4,7 +4,7 @@ Simple templating CLI
 ## Install
 
 ```
-go get github.com/fatih/templatectl/cmd/templatectl@latest
+GO111MODULE=on go get github.com/fatih/templatectl/cmd/templatectl@latest
 ```
 
 ## Usage
