@@ -1,0 +1,2 @@
+# templatectl
+Simple templating CLI
