@@ -2,6 +2,7 @@ package template
 
 import (
 	"bytes"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"text/template"
@@ -28,7 +29,13 @@ func (t *Template) ExecuteFile(file string) (string, error) {
 // Execute executes the given template and returns the final result
 func (t *Template) Execute(in string) (string, error) {
 	funcMap := template.FuncMap{
-		"env": os.Getenv,
+		"env": func(key string) (string, error) {
+			val, found := os.LookupEnv(key)
+			if !found {
+				return "", fmt.Errorf("environment variable %q is not defined", key)
+			}
+			return val, nil
+		},
 	}
 
 	tmpl, err := template.New("file").
