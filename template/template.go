@@ -10,11 +10,13 @@ import (
 
 // NewTemplate returns a new template instance
 func NewTemplate() *Template {
-	return &Template{}
+	return &Template{LookupFunc: os.LookupEnv}
 }
 
 // Template is responsible for producing files from the given files
-type Template struct{}
+type Template struct {
+	LookupFunc func(string) (string, bool)
+}
 
 // ExecuteFile executes the given template file and returns the final result
 func (t *Template) ExecuteFile(file string) (string, error) {
@@ -30,7 +32,7 @@ func (t *Template) ExecuteFile(file string) (string, error) {
 func (t *Template) Execute(in string) (string, error) {
 	funcMap := template.FuncMap{
 		"env": func(key string) (string, error) {
-			val, found := os.LookupEnv(key)
+			val, found := t.LookupFunc(key)
 			if !found {
 				return "", fmt.Errorf("environment variable %q is not defined", key)
 			}
