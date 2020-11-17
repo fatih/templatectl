@@ -8,7 +8,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/fatih/templatectl/internal/template"
+	"github.com/fatih/templatectl/template"
 )
 
 func main() {
